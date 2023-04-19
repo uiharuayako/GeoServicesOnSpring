@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.4'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id "org.springdoc.openapi-gradle-plugin" version "1.6.0"
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral(artifactUrls: "http://maven.geotoolkit.org")
+	maven{
+		url "https://repo.osgeo.org/repository/release/"
+	}
+}
+
+dependencies {
+	// spring
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// doc 1.6版本不适用于springboot 3，2.0.2版本一直在报错
+//	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+
+	// database
+	implementation 'org.hibernate:hibernate-core:6.1.7.Final'
+	implementation 'org.hibernate:hibernate-spatial:6.1.7.Final'
+	implementation 'org.apache.commons:commons-pool2:2.11.1'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // plugins
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'com.alibaba:fastjson:2.0.24'
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation "org.mockito:mockito-core:2.13.0"
+	testImplementation "org.assertj:assertj-core:3.8.0"
+
+	// geojson
+	implementation 'org.wololo:jts2geojson:0.18.1'
+	implementation 'org.locationtech.jts:jts-core:1.19.0'
+	implementation 'com.bedatadriven:jackson-datatype-jts:2.4'
+	implementation 'org.geotools:gt-shapefile:28.2'
+	implementation 'org.geotools:gt-geojson:28.2'
+	implementation 'org.geotools:gt-geojson-store:28.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
